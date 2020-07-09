@@ -36,6 +36,27 @@ TX1      Through 6K8 resistor to Duet URXD0
 RX0      Paneldue Dout Side Port
 ```
 
+Code Explanation
+The G/M code you wish to assign to the keypad buttons must have a specific format. The desired G/M code goes in the quotations with "\n" at the end of each code. 
+
+For instance 
+
+    1. this code is assigned to button number 1 and when pressed it sends G28 to the printer. 
+      if (key == '1') { output.print("G28\n"); } // Home all
+
+You can assign a button to run multiple G/M codes at once. 
+
+For instance 
+
+    2. this code is assigned to button number 4. When pressed it enables the hotend and sets it's temp to 200. Notice each code must have "\n" after the end of it.
+      else if (key == '4') { output.print("T0 P0\n G10 P0 S200\n"); }  // Enable hotend and set temp to 200c
+
+This code is assigned to button number 3.
+
+    3. When pressed it sends; M120-pushes state of the machine to a stack, M83-Sets extruder to relative position, G1-Linear move, E10 F900-Extrude 10mm of filament at 900mm per minute, M121-Recovers last state from stack
+      else if (key == '3') { output.print("M120\n M83\n G1\n E10\n F900\n M121\n"); } //Extrude 10mm of filament at 15mm/s
+
+
 The original sketch included a LED that would illuminate when the Estop was pressed but I found it inconsistent. The LED would often stay lit after the Estop was pressed so my sketch has the LED part removed.
 
 I used the core from door bell wire and daisy chained all the switch grounds to clean up the wiring. 
