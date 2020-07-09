@@ -11,8 +11,9 @@ Nano     Connected to:
 VCC      PanelDue side port 5V
 GND      PanelDue side port 0V
 GND      LED - Terminal, Rotary Encoder Ground, Mini Switch Middle Terminal, Emergency Stop
-5v       Rotary Encoder + Terminal
+5v       Rotary Encoder + Terminal, LED + Terminal-Make sure you use the correct resistor to reduce the votage from the Arduino. 120-220 ohm should be sufficient.
 A0       Emergency Stop
+A1       NC
 A2       Rotary Encoder Pin A
 A3       Rotary Encoder Pin B
 A4       X Switch Top Lug
@@ -30,7 +31,7 @@ D9       Keypad Membrane
 D10      X1 Switch Top Lug
 D11      X10 Switch Top Lug
 D12      X100 Switch Top Lug
-D13      LED + Terminal-Make sure you use the correct resistor to reduce the votage from the Arduino. 120-220 ohm should be sufficient. 
+D13      NC
 TX1      Through 6K8 resistor to Duet URXD0
 RX0      Paneldue Dout Side Port
 ```
