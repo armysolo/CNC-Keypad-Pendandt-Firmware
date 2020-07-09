@@ -36,6 +36,12 @@ TX1      Through 6K8 resistor to Duet URXD0
 RX0      Paneldue Dout Side Port
 ```
 
+The original sketch included a LED that would illuminate when the Estop was pressed but I found it inconsistent. The LED would often stay lit after the Estop was pressed so my sketch has the LED part removed.
+
+I used the core from door bell wire and daisy chained all the switch grounds to clean up the wiring. 
+
+I installed a latching push button switch where one terminal goes to ground on the Arduino and the other terminal goes to ground for all switches, rotary encoder and LED. Wiring it this way allows me to disable the rotary encoder, tactile switches and slide switches preventing any unwanted movement. When the switch is latched it enables the rotary encoder and all other switches, the LED will light up to let you know everything is grounded/enabled.
+
 **Parts list** These are the links for reference of the parts I puchased:
 
 **Arduino Nano Clone** These boards are so inexepensive and have so many uses I buy them 10 at a time un-soldered. With them unsoldered it's also easier to desolder the resistor on the front leading to the LED and desolder the 1k resistor on the rear and replace it with a 10k resistor. I used a little hot glue from a hot glue gun to secure the resistor to the back of the board to protect it.
