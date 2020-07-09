@@ -5,23 +5,33 @@
  * It should alo work on an Arduino Uno (using the same wiring scheme as for the Nano) or Arduino Leonardo (using the same wiring scheme as for the Pro Micro).
  * The recommended board is the Arduino Pro Micro because the passthrough works without any modificatoins to the Arduino. 
 
-Arduino Nano to Duet PanelDue connector connections:
-
-*** Pendant to Arduino Nano connections ***
-
-Arduino Nano to Duet PanelDue connector connections:
-
-Nano    Duet
-+5V     +5V
-GND     GND
-TX1/D0  Through 6K8 resistor to URXD, also connect 10K resistor between URXD and GND
-
-To connect a PanelDue as well:
-
-PanelDue +5V to +5V
-PanelDue GND to GND
-PanelDue DIN to Duet UTXD or IO_0_OUT
-PanelDue DOUT to Nano/Pro Micro RX1/D0.
+Nano     Connected to:   
+VCC      PanelDue side port 5V
+GND      PanelDue side port 0V
+GND      LED - Terminal, Rotary Encoder Ground, Mini Switch Middle Terminal, Emergency Stop
+5v       Rotary Encoder + Terminal, LED + Terminal-Make sure you use the correct resistor to reduce the votage from the Arduino. 120-220 ohm should be sufficient.
+A0       Emergency Stop
+A1       NC
+A2       Rotary Encoder Pin A
+A3       Rotary Encoder Pin B
+A4       X Switch Top Lug
+A5       Y Switch Top Lug
+A6       Z Switch Top Lug
+A7       NC
+D2       Keypad Membrane
+D3       Keypad Membrane
+D4       Keypad Membrane
+D5       Keypad Membrane
+D6       Keypad Membrane
+D7       Keypad Membrane
+D8       Keypad Membrane
+D9       Keypad Membrane
+D10      X1 Switch Top Lug
+D11      X10 Switch Top Lug
+D12      X100 Switch Top Lug
+D13      NC
+TX1      Through 6K8 resistor to Duet URXD0
+RX0      Paneldue Dout Side Port
 
 On the Arduino Nano is necessary to replace the 1K resistor between the USB interface chip by a 10K resistor so that PanelDiue can override the USB chip.
 On Arduino Nano clones with CH340G chip, it is also necessary to remove the RxD LED or its series resistor.
@@ -40,7 +50,6 @@ const int PinStop = A0;
 const int PinTimes1 = 10;
 const int PinTimes10 = 11;
 const int PinTimes100 = 12;
-const int PinLed = 13;
 const byte ROWS = 4; //four rows
 const byte COLS = 4; //four columns
 //Installed Upright/Normal
@@ -72,7 +81,6 @@ const char* const MoveCommands[] =
 #include "RotaryEncoder.h"
 #include "GCodeSerial.h"
 #include "PassThrough.h"
-//#include <Keypad.h>
 
 RotaryEncoder encoder(PinA, PinB, PulsesPerClick);
 PassThrough passThrough;
@@ -100,9 +108,7 @@ void setup()
   pinMode(PinTimes10, INPUT_PULLUP);
   pinMode(PinTimes100, INPUT_PULLUP);
   pinMode(PinStop, INPUT_PULLUP);
-  pinMode(PinLed, OUTPUT);
   output.begin(BaudRate);
-  digitalWrite(PinLed, LOW);
   serialBufferSize = output.availableForWrite();
   Serial.begin(57600);
   keypad.addEventListener(keypadEvent);  //Keypad 1
@@ -124,16 +130,14 @@ void loop()
   // We could possibly use interrupts instead, but if the encoder suffers from contact bounce then that isn't a good idea.
   // In practice this loop executes fast enough that polling it here works well enough
   encoder.poll();
-  digitalWrite(PinLed, LOW);
 
   // 1. Check for emergency stop
-/*  if (digitalRead(PinStop) == LOW)
+  if (digitalRead(PinStop) == LOW)
   {
     // Send emergency stop command every 2 seconds
     do
     {
       output.write("M112 ;" "\xF0" "\x0F" "\n");
-      digitalWrite(PinLed, HIGH);
       uint16_t now = (uint16_t)millis();
       while (digitalRead(PinStop) == HIGH && (uint16_t)millis() - now < 2000)
       {
@@ -143,9 +147,8 @@ void loop()
     } while (digitalRead(PinStop) == HIGH);
 
     output.write("M999\n");
-  }*/
+  }
   char key = keypad.getKey();  //Keypad 1
-  digitalWrite(PinLed, LOW);
 
   // 2. Poll the feed amount switch
   distanceMultiplier = 0;
