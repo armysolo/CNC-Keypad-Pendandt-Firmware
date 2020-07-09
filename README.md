@@ -4,7 +4,7 @@ Modified CNC Pendant Firmware with Arduino Nano Clone with CH340G microchip. I d
 
 *NOTE: This should work with other Arduino boards like the Arduino Micro Pro. However my testing was done only with a Nano clone so all wiring and sketch notes are based on the Nano. There's residual info/configs from the original fork I didn't want to get rid of.
 
-The Arduino Nano I use come un-soldered. The printed parts I designed are based off Arduino Nano clones without the pins. The parts could still work if modified but for now you'd probably have some fitment issues.
+The Arduino Nano I use come un-soldered. The printed parts I designed are based off Arduino Nano clones without the pins. The parts could still work if modified but for now you'd probably have some fitment issues. You will need to solder pins to D2-D9 for the keypad. Make sure to flip the pins so the longer end of the pins are on the top instead of the bottom.
 
 ```
 Nano     Connected to:   
@@ -28,13 +28,15 @@ D6       Keypad Membrane
 D7       Keypad Membrane
 D8       Keypad Membrane
 D9       Keypad Membrane
-D10      X1 Switch Top Lug
-D11      X10 Switch Top Lug
-D12      X100 Switch Top Lug
+D10      X.1 Switch Top Lug
+D11      X1 Switch Top Lug
+D12      X10 Switch Top Lug
 D13      NC
 TX1      Through 6K8 resistor to Duet URXD0
 RX0      Paneldue Dout Side Port
 ```
+
+To use the jog features you will need to select your axis and the movement increments by sliding the switch up. So if you slide the X switch up and the x1 switch up, turning the rotary encoder will move the axis in 1mm increments.
 
 Code Explanation
 The G/M code you wish to assign to the keypad buttons must have a specific format. The desired G/M code goes in the quotations with "\n" at the end of each code. 
