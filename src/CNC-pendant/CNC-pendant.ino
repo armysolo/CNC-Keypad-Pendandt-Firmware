@@ -26,9 +26,9 @@ D6       Keypad Membrane
 D7       Keypad Membrane
 D8       Keypad Membrane
 D9       Keypad Membrane
-D10      X1 Switch Top Lug
-D11      X10 Switch Top Lug
-D12      X100 Switch Top Lug
+D10      X.1 Switch Top Lug
+D11      X1 Switch Top Lug
+D12      X10 Switch Top Lug
 D13      NC
 TX1      Through 6K8 resistor to Duet URXD0
 RX0      Paneldue Dout Side Port
